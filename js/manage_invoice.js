@@ -46,10 +46,10 @@ function updateInvoice(invoiceNumber) {
   var total_amount = document.getElementById("total_amount").value;
   var total_discount = document.getElementById("total_discount").value;
   var net_total = document.getElementById("net_total").value;
-  var net_total = document.getElementById("net_total").value;
-  var net_total = document.getElementById("net_total").value;
-  var net_total = document.getElementById("net_total").value;
-  var net_total = document.getElementById("net_total").value;
+  var tex_3 = document.getElementById("tex_1").value;
+  var tex_2 = document.getElementById("tex_2").value;
+  var tex_1 = document.getElementById("tex_3").value;
+  var tex = document.getElementById("tex_4").value;
 
   var xhr = new XMLHttpRequest();
   xhr.open(
@@ -63,7 +63,9 @@ function updateInvoice(invoiceNumber) {
       "&total_discount=" +
       encodeURIComponent(total_discount) +
       "&net_total=" +
-      encodeURIComponent(net_total),
+      encodeURIComponent(net_total) +
+      "&tex_1=" +
+      encodeURIComponent(tex_1),
     true
   );
   xhr.onreadystatechange = function () {

@@ -26,26 +26,26 @@ if(isset($_GET["action"]) && $_GET["action"] == "update") {
 if(isset($_GET["action"]) && $_GET["action"] == "cancel")
       showInvoices();
 function showEditInvoices($invoice_number) {
-    require "db_connection.php";
-    if ($con) {
-        $seq_no = 0;
-        $query = "SELECT invoices.*, customers.NAME 
-                  FROM invoices 
-                  INNER JOIN customers ON invoices.CUSTOMER_ID = customers.ID";
-        $result = mysqli_query($con, $query);
-        if ($result && mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_array($result)) {
-                $seq_no++;
-                if ($row['INVOICE_ID'] == $invoice_number) {
-                    showEditOptionsRow($seq_no, $row);
-                } else {
-                    showInvoiceRow($seq_no, $row);
-                }
-            }
-        } else {
-            echo "No invoices found.";
-        }
-    }
+require "db_connection.php";
+if ($con) {
+$seq_no = 0;
+$query = "SELECT invoices.*, customers.NAME, customers.ADDRESS, customers.CONTACT_NUMBER, customers.DOCTOR_NAME, customers.DOCTOR_ADDRESS
+FROM invoices
+INNER JOIN customers ON invoices.CUSTOMER_ID = customers.ID";
+$result = mysqli_query($con, $query);
+if ($result && mysqli_num_rows($result) > 0) {
+while ($row = mysqli_fetch_array($result)) {
+$seq_no++;
+if ($row['INVOICE_ID'] == $invoice_number) {
+showEditOptionsRow($seq_no, $row);
+} else {
+showInvoiceRow($seq_no, $row);
+}
+}
+} else {
+echo "No invoices found.";
+}
+}
 }
 
 function showEditOptionsRow($seq_no, $row) {
@@ -78,22 +78,10 @@ function showEditOptionsRow($seq_no, $row) {
       <textarea class="form-control" placeholder="payment status" id="payment_status"><?php echo $row['PAYMENT_STATUS']; ?></textarea>
       <code class="text-danger small font-weight-bold float-right" id="payment_status_error" style="display: none;"></code>
     </td>
-    <td>
-      <textarea class="form-control" placeholder="Net Total" id="net_total"><?php echo $row['NET_TOTAL']; ?></textarea>
-      <code class="text-danger small font-weight-bold float-right" id="net_total_error" style="display: none;"></code>
-    </td>
-    <td>
-      <textarea class="form-control" placeholder="Net Total" id="net_total"><?php echo $row['NET_TOTAL']; ?></textarea>
-      <code class="text-danger small font-weight-bold float-right" id="net_total_error" style="display: none;"></code>
-    </td>
-    <td>
-      <textarea class="form-control" placeholder="Net Total" id="net_total"><?php echo $row['NET_TOTAL']; ?></textarea>
-      <code class="text-danger small font-weight-bold float-right" id="net_total_error" style="display: none;"></code>
-    </td>
-    <td>
-      <textarea class="form-control" placeholder="Net Total" id="net_total"><?php echo $row['NET_TOTAL']; ?></textarea>
-      <code class="text-danger small font-weight-bold float-right" id="net_total_error" style="display: none;"></code>
-    </td>
+   <td><?php echo $row['ADDRESS']; ?></td>
+   <td><?php echo $row['CONTACT_NUMBER']; ?></td>
+   <td><?php echo $row['DOCTOR_NAME']; ?></td>
+   <td><?php echo $row['DOCTOR_ADDRESS']; ?></td>
     <td>
       <textarea class="form-control" placeholder="tex" id="tex"><?php echo $row['TEX']; ?></textarea>
       <code class="text-danger small font-weight-bold float-right" id="tex_error" style="display: none;"></code>
