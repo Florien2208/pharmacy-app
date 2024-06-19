@@ -189,18 +189,26 @@
   function addNewInvoice() {
     $customer_id = getCustomerId(strtoupper($_GET['customers_name']), $_GET['customers_contact_number']);
     $invoice_date = $_GET['invoice_date'];
-     $tex = $_GET['tex']; 
-     $tex1 = $_GET['tex1']; 
-     $tex2 = $_GET['tex2']; 
-    //$payment_status = ($_GET['payment_type'] == "");
+
+    // Check if 'tex', 'tex1', 'tex2', 'tex3', 'tex4', 'tex5', 'tex6' and 'tex7' are set in $_GET
+    $tex = isset($_GET['tex']) ? $_GET['tex'] : '';
+    $tex1 = isset($_GET['tex1']) ? $_GET['tex1'] : '';
+    $tex2 = isset($_GET['tex2']) ? $_GET['tex2'] : '';
+    $tex3 = isset($_GET['tex3']) ? $_GET['tex3'] : '';
+    $tex4 = isset($_GET['tex4']) ? $_GET['tex4'] : '';
+    $tex5 = isset($_GET['tex5']) ? $_GET['tex5'] : '';
+    $tex6 = isset($_GET['tex6']) ? $_GET['tex6'] : '';
+    $tex7 = isset($_GET['tex7']) ? $_GET['tex7'] : '';
+
     $total_amount = $_GET['total_amount'];
     $total_discount = $_GET['total_discount'];
     $net_total = $_GET['net_total'];
     require "db_connection.php";
     if($con) {
-      $query = "INSERT INTO invoices (CUSTOMER_ID, INVOICE_DATE, TOTAL_AMOUNT, TOTAL_DISCOUNT, NET_TOTAL,TEX,TEX1,TEX2) VALUES($customer_id, '$invoice_date',  $total_amount, $total_discount, $net_total, '$tex','$tex1','$tex2')";
-      $result = mysqli_query($con, $query);
-      echo ($result) ? "Invoice saved..." : "falied to add invoice...";
+        $query = "INSERT INTO invoices (CUSTOMER_ID, INVOICE_DATE, TOTAL_AMOUNT, TOTAL_DISCOUNT, NET_TOTAL,TEX,TEX1,TEX2,TEX3,TEX4,TEX5,TEX6,TEX7) VALUES($customer_id, '$invoice_date',  $total_amount, $total_discount, $net_total, '$tex','$tex1','$tex2','$tex3','$tex4','$tex5','$tex6','$tex7')";
+        $result = mysqli_query($con, $query);
+        echo ($result) ? "Invoice saved..." : "failed to add invoice...";
     }
-  }
+}
+
 ?>

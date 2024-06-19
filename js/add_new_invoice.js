@@ -241,6 +241,11 @@ function addInvoice() {
   var tex = document.getElementById("tex");
   var tex1 = document.getElementById("tex1");
   var tex2 = document.getElementById("tex2");
+  var tex3 = document.getElementById("tex3");
+  var tex4 = document.getElementById("tex4");
+  var tex5 = document.getElementById("tex5");
+  var tex6 = document.getElementById("tex6");
+  var tex7 = document.getElementById("tex7");
   var payment_type = document.getElementById("payment_type");
   var invoice_date = document.getElementById("invoice_date");
   //alert(invoice_number.value);
@@ -383,7 +388,12 @@ function addInvoice() {
       net_total.value,
       tex.value,
       tex1.value,
-      tex2.value
+      tex2.value,
+      tex3.value,
+      tex4.value,
+      tex5.value,
+      tex6.value,
+      tex7.value
       
     );
     document.getElementById("save_button").style.display = "none";
@@ -466,6 +476,11 @@ function addNewInvoice(
   tex,
   tex1,
   tex2,
+  tex3,
+  tex4,
+  tex5,
+  tex6,
+  tex7,
 ) {
   // Modified this line
   var xhttp = new XMLHttpRequest();
@@ -493,11 +508,19 @@ function addNewInvoice(
      "&tex1=" +
      tex1 +
      "&tex2=" +
-     tex2, 
+     tex2 +
+     "&tex3=" +
+     tex3 + 
+     "&tex4=" +
+     tex4 + 
+     "&tex5=" +
+     tex5 +
+     "&tex6=" +
+     tex6 +
+     "&tex7=" +
+     tex7,
    true
  );
   xhttp.send();
 
-
-  
 }

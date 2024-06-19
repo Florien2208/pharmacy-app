@@ -6,7 +6,7 @@
     $query = "DELETE FROM invoices WHERE INVOICE_ID = $invoice_number";
     $result = mysqli_query($con, $query);
     if(!empty($result))
-  		showInvoices();
+      showInvoices();
   }
   
 if(isset($_GET["action"]) && $_GET["action"] == "edit") {
@@ -54,6 +54,10 @@ function showEditOptionsRow($seq_no, $row) {
     <td><?php echo $seq_no; ?></td>
     <td><?php echo $row['INVOICE_ID']; ?></td>
     <td><?php echo $row['NAME']; ?></td>
+    <td><?php echo $row['NAME']; ?></td>
+    <td><?php echo $row['NAME']; ?></td>
+    <td><?php echo $row['NAME']; ?></td>
+    <td><?php echo $row['NAME']; ?></td>
     <td>
       <input type="date" class="form-control" value="<?php echo $row['INVOICE_DATE']; ?>" placeholder="Invoice Date" id="invoice_date">
       <code class="text-danger small font-weight-bold float-right" id="invoice_date_error" style="display: none;"></code>
@@ -71,6 +75,58 @@ function showEditOptionsRow($seq_no, $row) {
       <code class="text-danger small font-weight-bold float-right" id="net_total_error" style="display: none;"></code>
     </td>
     <td>
+      <textarea class="form-control" placeholder="payment status" id="payment_status"><?php echo $row['PAYMENT_STATUS']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="payment_status_error" style="display: none;"></code>
+    </td>
+    <td>
+      <textarea class="form-control" placeholder="Net Total" id="net_total"><?php echo $row['NET_TOTAL']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="net_total_error" style="display: none;"></code>
+    </td>
+    <td>
+      <textarea class="form-control" placeholder="Net Total" id="net_total"><?php echo $row['NET_TOTAL']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="net_total_error" style="display: none;"></code>
+    </td>
+    <td>
+      <textarea class="form-control" placeholder="Net Total" id="net_total"><?php echo $row['NET_TOTAL']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="net_total_error" style="display: none;"></code>
+    </td>
+    <td>
+      <textarea class="form-control" placeholder="Net Total" id="net_total"><?php echo $row['NET_TOTAL']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="net_total_error" style="display: none;"></code>
+    </td>
+    <td>
+      <textarea class="form-control" placeholder="tex" id="tex"><?php echo $row['TEX']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="tex_error" style="display: none;"></code>
+    </td>
+    <td>
+      <textarea class="form-control" placeholder="tex 1" id="tex_1"><?php echo $row['TEX1']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="tex_1_error" style="display: none;"></code>
+    </td>
+    <td>
+      <textarea class="form-control" placeholder="tex 2" id="tex_2"><?php echo $row['TEX2']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="tex_2_error" style="display: none;"></code>
+    </td>
+    <td>
+      <textarea class="form-control" placeholder="tex 3" id="tex_3"><?php echo $row['TEX3']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="tex_3_error" style="display: none;"></code>
+    </td>
+    <td>
+      <textarea class="form-control" placeholder="tex 4" id="tex_4"><?php echo $row['TEX4']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="tex_4_error" style="display: none;"></code>
+    </td>
+    <td>
+      <textarea class="form-control" placeholder="tex 5" id="tex_5"><?php echo $row['TEX5']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="tex_5_error" style="display: none;"></code>
+    </td>
+    <td>
+      <textarea class="form-control" placeholder="tex 6" id="tex_6"><?php echo $row['TEX6']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="tex_7_error" style="display: none;"></code>
+    </td>
+    <td>
+      <textarea class="form-control" placeholder="tex 7" id="tex_7"><?php echo $row['TEX7']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="tex_7_error" style="display: none;"></code>
+    </td>
+    <td>
       <button href="" class="btn btn-success btn-sm" onclick="updateInvoice(<?php echo $row['INVOICE_ID']; ?>);">
         <i class="fa fa-edit"></i>
       </button>
@@ -83,7 +139,7 @@ function showEditOptionsRow($seq_no, $row) {
   };
   xhttp.open('GET', 'php/manage_invoice.php?action=cancel', true);
   xhttp.send();
-  return false; // Prevent the default link behavior
+  return false; 
 })(); return false;">
   <i class="fa fa-close"></i>
 </button>
@@ -119,28 +175,54 @@ function updateInvoice($id, $invoice_date, $total_amount, $total_discount, $net_
 
   function showInvoices() {
     require "db_connection.php";
-    if($con) {
-      $seq_no = 0;
-      $query = "SELECT * FROM invoices INNER JOIN customers ON invoices.CUSTOMER_ID = customers.ID";
-      $result = mysqli_query($con, $query);
-      while($row = mysqli_fetch_array($result)) {
-        $seq_no++;
-        showInvoiceRow($seq_no, $row);
-      }
+    if ($con) {
+        $seq_no = 0;
+        $query = "
+            SELECT customers.ID AS CUSTOMER_ID, invoices.INVOICE_ID, customers.NAME, invoices.INVOICE_DATE, invoices.TOTAL_AMOUNT, invoices.TOTAL_DISCOUNT, invoices.NET_TOTAL, invoices.PAYMENT_STATUS, 
+                   customers.ADDRESS, customers.CONTACT_NUMBER, customers.DOCTOR_NAME, customers.DOCTOR_ADDRESS, invoices.TEX, invoices.TEX1, invoices.TEX2, invoices.TEX3, invoices.TEX4, invoices.TEX5, invoices.TEX6, invoices.TEX7, GROUP_CONCAT(sales.BATCH_ID SEPARATOR ', ') AS BATCHS, GROUP_CONCAT(sales.QUANTITY SEPARATOR ', ') AS QUANTITIES, GROUP_CONCAT(sales.MRP SEPARATOR ', ') AS MRPS, 
+                   GROUP_CONCAT(sales.MEDICINE_NAME SEPARATOR ', ') AS MEDICINES
+            FROM invoices
+            INNER JOIN customers ON invoices.CUSTOMER_ID = customers.ID
+            INNER JOIN sales ON invoices.INVOICE_ID = sales.INVOICE_NUMBER
+            GROUP BY invoices.INVOICE_ID, customers.NAME, invoices.INVOICE_DATE, invoices.TOTAL_AMOUNT, invoices.TOTAL_DISCOUNT, invoices.NET_TOTAL, invoices.PAYMENT_STATUS, customers.ID
+        ";
+        $result = mysqli_query($con, $query);
+        while ($row = mysqli_fetch_array($result)) {
+            $seq_no++;
+            showInvoiceRow($seq_no, $row);
+        }
     }
-  }
+}
 
-  function showInvoiceRow($seq_no, $row) {
+  function showInvoiceRow($seq_no, $row)
+{
     ?>
     <tr>
-      <td><?php echo $seq_no; ?></td>
-      <td><?php echo $row['INVOICE_ID']; ?></td>
-      <td><?php echo $row['NAME']; ?></td>
-      <td><?php echo $row['INVOICE_DATE']; ?></td>
-      <td><?php echo $row['TOTAL_AMOUNT']; ?></td>
-      <td><?php echo $row['TOTAL_DISCOUNT']; ?></td>
-      <td><?php echo $row['NET_TOTAL']; ?></td>
-      <td>
+        <td><?php echo $seq_no; ?></td>
+        <td><?php echo $row['INVOICE_ID']; ?></td>
+        <td><?php echo $row['NAME']; ?></td>
+        <td><?php echo $row['MEDICINES']; ?></td>
+        <td><?php echo $row['BATCHS']; ?></td>
+        <td><?php echo $row['QUANTITIES']; ?></td>
+        <td><?php echo $row['MRPS']; ?></td>
+        <td><?php echo $row['INVOICE_DATE']; ?></td>
+        <td><?php echo $row['TOTAL_AMOUNT']; ?></td>
+        <td><?php echo $row['TOTAL_DISCOUNT']; ?></td>
+        <td><?php echo $row['NET_TOTAL']; ?></td>
+        <td><?php echo $row['PAYMENT_STATUS']; ?></td>
+        <td><?php echo $row['ADDRESS']; ?></td>
+        <td><?php echo $row['CONTACT_NUMBER']; ?></td>
+        <td><?php echo $row['DOCTOR_NAME']; ?></td>
+        <td><?php echo $row['DOCTOR_ADDRESS']; ?></td>
+        <td><?php echo $row['TEX']; ?></td>
+        <td><?php echo $row['TEX1']; ?></td>
+        <td><?php echo $row['TEX2']; ?></td>
+        <td><?php echo $row['TEX3']; ?></td>
+        <td><?php echo $row['TEX4']; ?></td>
+        <td><?php echo $row['TEX5']; ?></td>
+        <td><?php echo $row['TEX6']; ?></td>
+        <td><?php echo $row['TEX7']; ?></td>
+        <td>
         <button class="btn btn-warning btn-sm" onclick="printInvoice(<?php echo $row['INVOICE_ID']; ?>);">
           <i class="fa fa-fax"></i>
         </button>
@@ -174,146 +256,208 @@ function updateInvoice($id, $invoice_date, $total_amount, $total_discount, $net_
     }
   }
 
-  function printInvoice($invoice_number) {
+  function printInvoice($invoice_number)
+{
     require "db_connection.php";
-    if($con) {
-      $query = "SELECT * FROM sales INNER JOIN customers ON sales.CUSTOMER_ID = customers.ID WHERE INVOICE_NUMBER = $invoice_number";
-      $result = mysqli_query($con, $query);
-      $row = mysqli_fetch_array($result);
-      $customer_name = $row['NAME'];
-      $address = $row['ADDRESS'];
-      $contact_number = $row['CONTACT_NUMBER'];
-      $doctor_name = $row['DOCTOR_NAME'];
-      $doctor_address = $row['DOCTOR_ADDRESS'];
+    if ($con) {
+        $query = "SELECT * FROM sales 
+                  INNER JOIN customers ON sales.CUSTOMER_ID = customers.ID 
+                  WHERE INVOICE_NUMBER = $invoice_number";
+        $result = mysqli_query($con, $query);
+        $row = mysqli_fetch_array($result);
+        $customer_name = $row['NAME'];
+        $address = $row['ADDRESS'];
+        $contact_number = $row['CONTACT_NUMBER'];
+        $doctor_name = $row['DOCTOR_NAME'];
+        $doctor_address = $row['DOCTOR_ADDRESS'];
 
-      $query = "SELECT * FROM invoices WHERE INVOICE_ID = $invoice_number";
-      $result = mysqli_query($con, $query);
-      $row = mysqli_fetch_array($result);
-      $invoice_date = $row['INVOICE_DATE'];
-      $total_amount = $row['TOTAL_AMOUNT'];
-      $total_discount = $row['TOTAL_DISCOUNT'];
-      $net_total = $row['NET_TOTAL'];
-      $tex = $row['TEX'];
-      $tex1 = $row['TEX1'];
-      $tex2 = $row['TEX2'];
+        $query = "SELECT * FROM invoices WHERE INVOICE_ID = $invoice_number";
+        $result = mysqli_query($con, $query);
+        $row = mysqli_fetch_array($result);
+        $invoice_date = $row['INVOICE_DATE'];
+        $total_amount = $row['TOTAL_AMOUNT'];
+        $total_discount = $row['TOTAL_DISCOUNT'];
+        $net_total = $row['NET_TOTAL'];
+        $tex = $row['TEX'];
+        $tex1 = $row['TEX1'];
+        $tex2 = $row['TEX2'];
+        $tex3 = $row['TEX3'];
+        $tex4 = $row['TEX4'];
+        $tex5 = $row['TEX5'];
+        $tex6 = $row['TEX6'];
+        $tex7 = $row['TEX7'];
     }
 
     ?>
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/sidenav.css">
-    <link rel="stylesheet" href="css/home.css">
+     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/sidenav.css">
+<link rel="stylesheet" href="css/home.css">
+
+<div class="container">
     <div class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10 h3" style="color: #ff5252;">Customer Invoice<span class="float-right">Invoice Number : <?php echo $invoice_number; ?></span></div>
+        <div class="col-md-12 d-flex justify-content-between align-items-center">
+            <div class="text-left h3">
+                RWANDA SOCIAL SECURITY BOARD (RSSB) <br>
+                Tel: +250 598400<br>
+                Fax: +250 584445<br>
+            </div>
+            <div class="text-right">
+                <div class="h3">PHARMACIE IWAWE</div>
+                <div class="h4">Invoice Date: <?php echo $invoice_date; ?></div>
+            </div>
+        </div>
     </div>
-    <div class="row font-weight-bold">
-      <div class="col-md-1"></div>
-      <div class="col-md-10"><span class="h4 float-right">Invoice Date. : <?php echo $invoice_date; ?></span></div>
-    </div>
+</div>
+    
     <div class="row text-center">
-      <hr class="col-md-10" style="padding: 0px; border-top: 2px solid  #ff5252;">
+        <hr class="col-md-12" style="border-top: 2px solid #ff5252;">
     </div>
+    
     <div class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-4">
-        <span class="h4">Customer Details : </span><br><br>
-        <span class="font-weight-bold">Name : </span><?php echo $customer_name; ?><br>
-        <span class="font-weight-bold">Address : </span><?php echo $address; ?><br>
-        <span class="font-weight-bold">Contact Number : </span><?php echo $contact_number; ?><br>
-        <span class="font-weight-bold">Doctor's Name : </span><?php echo $doctor_name; ?><br>
-        <span class="font-weight-bold">Doctor's Address : </span><?php echo $doctor_address; ?><br>
-              <span class="font-weight-bold">TEX : </span><?php echo $tex; ?><br>
-        <span class="font-weight-bold">TEX1 : </span><?php echo $tex1; ?><br>
-        <span class="font-weight-bold">TEX2 : </span><?php echo $tex2; ?><br>
-        
-      </div>
-      
-      <div class="col-md-3"></div>
-
-      <?php
-
-      $query = "SELECT * FROM admin_credentials";
-      $result = mysqli_query($con, $query);
-      $row = mysqli_fetch_array($result);
-      $p_name = $row['PHARMACY_NAME'];
-      $p_address = $row['ADDRESS'];
-      $p_email = $row['EMAIL'];
-      $p_contact_number = $row['CONTACT_NUMBER'];
-      ?>
-
-      <div class="col-md-4">
-        <span class="h4">Shop Details : </span><br><br>
-        <span class="font-weight-bold"><?php echo $p_name; ?></span><br>
-        <span class="font-weight-bold"><?php echo $p_address; ?></span><br>
-        <span class="font-weight-bold"><?php echo $p_email; ?></span><br>
-        <span class="font-weight-bold">Mob. No.: <?php echo $p_contact_number; ?></span>
-      </div>
-      <div class="col-md-1"></div>
+        <div class="col-md-12" style="font-size: 25px;">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span class="font-weight-bold">Beneficiary Name: </span><?php echo $customer_name; ?>
+                </div>
+                <div class="text-right">
+                    <span class="font-weight-bold">Invoice Number: </span><?php echo $tex1; ?>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span class="font-weight-bold">Beneficiary Affiliation Number: </span><?php echo $address; ?>
+                </div>
+                <div class="text-right">
+                    <span class="font-weight-bold">Voucher Identification: </span><?php echo $tex2; ?>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span class="font-weight-bold">Affiliate's Names: </span><?php echo $contact_number; ?>
+                </div>
+                <div class="text-right">
+                    <span class="font-weight-bold">Health Facility: </span><?php echo $tex3; ?>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span class="font-weight-bold">Affiliate's Affectation: </span><?php echo $doctor_name; ?>
+                </div>
+                <div class="text-right">
+                    <span class="font-weight-bold">Prescriber's Names: </span><?php echo $tex4; ?>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span class="font-weight-bold">Beneficiary's Gender M/F: </span><?php echo $doctor_address; ?>
+                </div>
+                <div class="text-right">
+                    <span class="font-weight-bold">Prescriber's Registration Number: </span><?php echo $tex5; ?>
+                </div>
+            </div>
+            <div>
+                <span class="font-weight-bold">Beneficiary's Age: </span><?php echo $tex; ?>
+            </div>
+        </div>
     </div>
+    
     <div class="row text-center">
-      <hr class="col-md-10" style="padding: 0px; border-top: 2px solid  #ff5252;">
+        <hr class="col-md-12" style="border-top: 2px solid #ff5252;">
     </div>
-
+    
     <div class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10 table-responsive">
-        <table class="table table-bordered table-striped table-hover" id="purchase_report_div">
-          <thead>
-            <tr>
-              <th>SL</th>
-              <th>Medicine Name</th>
-              <th>Expiry Date</th>
-              <th>Quantity</th>
-              <th>MRP</th>
-              <th>Discount</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-              $seq_no = 0;
-              $total = 0;
-              $query = "SELECT * FROM sales WHERE INVOICE_NUMBER = $invoice_number";
-              $result = mysqli_query($con, $query);
-              while($row = mysqli_fetch_array($result)) {
-                $seq_no++;
-                ?>
-                <tr>
-                  <td><?php echo $seq_no; ?></td>
-                  <td><?php echo $row['MEDICINE_NAME']; ?></td>
-                  <td><?php echo $row['EXPIRY_DATE']; ?></td>
-                  <td><?php echo $row['QUANTITY']; ?></td>
-                  <td><?php echo $row['MRP']; ?></td>
-                  <td><?php echo $row['DISCOUNT']."%"; ?></td>
-                  <td><?php echo $row['TOTAL']; ?></td>
-                </tr>
+        <div class="col-md-12 table-responsive" style="font-size: 25px;">
+            <table class="table table-bordered table-striped table-hover" id="purchase_report_div" style="font-size: 25px;">
+                <thead>
+                    <tr>
+                        <th>SL</th>
+                        <th>Medicine Name</th>
+                        <th>Expiry Date</th>
+                        <th>Quantity</th>
+                        <th>MRP</th>
+                        <th>Discount</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
                 <?php
-              }
-            ?>
-          </tbody>
-          <tfoot class="font-weight-bold">
-            <tr style="text-align: right; font-size: 18px;">
-              <td colspan="6">&nbsp;Total Amount</td>
-              <td><?php echo $total_amount; ?></td>
-            </tr>
-            <tr style="text-align: right; font-size: 18px;">
-              <td colspan="6">&nbsp;Total Discount</td>
-              <td><?php echo $total_discount; ?></td>
-            </tr>
-            <tr style="text-align: right; font-size: 22px;">
-              <td colspan="6" style="color: green;">&nbsp;Net Amount</td>
-              <td class="text-primary"><?php echo $net_total; ?></td>
-            </tr>
-          </tfoot>
-        </table>
+                $seq_no = 0;
+                $total = 0;
+                $query = "SELECT * FROM sales WHERE INVOICE_NUMBER = $invoice_number";
+                $result = mysqli_query($con, $query);
+                while ($row = mysqli_fetch_array($result)) {
+                    $seq_no++;
+                ?>
+                    <tr>
+                        <td><?php echo $seq_no; ?></td>
+                        <td><?php echo $row['MEDICINE_NAME']; ?></td>
+                        <td><?php echo $row['EXPIRY_DATE']; ?></td>
+                        <td><?php echo $row['QUANTITY']; ?></td>
+                        <td><?php echo $row['MRP']; ?></td>
+                        <td><?php echo $row['DISCOUNT'] . "%"; ?></td>
+                        <td><?php echo $row['TOTAL']; ?></td>
+                    </tr>
+                <?php
+                }
+                ?>
+                </tbody>
+                <tfoot class="font-weight-bold">
+                    <tr style="text-align: right; font-size: 30px;">
+                        <td colspan="6">Total Amount</td>
+                        <td><?php echo $total_amount; ?></td>
+                    </tr>
+                    <tr style="text-align: right; font-size: 30px;">
+                        <td colspan="6">Total Discount</td>
+                        <td><?php echo $total_discount; ?></td>
+                    </tr>
+                    <tr style="text-align: right; font-size: 30px;">
+                        <td colspan="6" style="color: green;">Net Amount</td>
+                        <td class="text-primary"><?php echo $net_total; ?></td>
+                    </tr>
+                </tfoot>
+               
+               <table style="width: 95%;">
+  <tr style="font-size: 23px;">
+    <td style="width: 20%; text-align: left; color: black;">
+      &nbsp; *<< Specialité>> ifite << Générique>>: <br><br>
+      iyo umurwayi ahisemo gufata << Specialité>> mu mwanya wa << Générique>>, RSSB yishyura ikurikije igiciro cya << Générique>> gusa
+    </td>
+    <td style="width: 50%; text-align: center;" style="font-size: 27px;">
+      <div>
+        <span class="font-weight-bold">RECEIVER NAMES: </span><?php echo $tex6; ?>
       </div>
-      <div class="col-md-1"></div>
+      <div>
+        <span class="font-weight-bold">PHONE Number:</span><?php echo $tex7; ?><br>SIGNATURE</br>
+      </div>
+    </td>
+  </tr>
+</table>
+
+<table style="width: 100%;">
+
+    <tr style="font-size: 28px;">
+    <td style="width: 50%; text-align: right; color: black;">
+      &nbsp; PHARMACY STAMP
+    </td>
+</tr>
+</table>
+
+
+            </table>
+        </div>
     </div>
+    
+     
+
+
+    
     <div class="row text-center">
-      <hr class="col-md-10" style="padding: 0px; border-top: 2px solid  #ff5252;">
+        <hr class="col-md-12" style="border-top: 2px solid #ff5252;">
     </div>
+</div>
+
     <?php
-  }
+}
 
 ?>

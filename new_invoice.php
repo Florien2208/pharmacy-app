@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <title>New Invoice</title>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-		<script src="bootstrap/js/jquery.min.js"></script>
-		<script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="shortcut icon" href="images/icon.svg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -20,17 +20,17 @@
   <body>
     <div id="add_new_customer_model">
       <div class="modal-dialog">
-      	<div class="modal-content">
-      		<div class="modal-header" style="background-color: #ff5252; color: white">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: #ff5252; color: white">
             <div class="font-weight-bold">Add New Customer</div>
-      			<button class="close" style="outline: none;" onclick="document.getElementById('add_new_customer_model').style.display = 'none';"><i class="fa fa-close"></i></button>
-      		</div>
-      		<div class="modal-body">
+            <button class="close" style="outline: none;" onclick="document.getElementById('add_new_customer_model').style.display = 'none';"><i class="fa fa-close"></i></button>
+          </div>
+          <div class="modal-body">
             <?php
               include('sections/add_new_customer.html');
             ?>
-      		</div>
-      	</div>
+          </div>
+        </div>
       </div>
     </div>
     <!-- including side navigations -->
@@ -67,8 +67,8 @@
             <div class="col col-md-2 form-group">
               <label class="font-weight-bold" for="">Payment Type :</label>
               <select id="payment_type" class="form-control">
-              	<option value="1">Cash Payment</option>
-              	<option value="2">Card Payment</option>
+                <option value="1">Cash Payment</option>
+                <option value="2">Card Payment</option>
                 <option value="3">Net Banking</option>
               </select>
             </div>
@@ -101,6 +101,26 @@
     <div class="col col-md-2 form-group">
               <label class="font-weight-bold" for="text1">Tex2 :</label>
               <input id="tex2" type="text" class="form-control" name="tex2"placeholder="tex2" >
+            </div>
+            <div class="col col-md-2 form-group">
+              <label class="font-weight-bold" for="text1">Tex3 :</label>
+              <input id="tex3" type="text" class="form-control" name="tex3" placeholder="tex3" >
+            </div>
+    <div class="col col-md-2 form-group">
+              <label class="font-weight-bold" for="text1">Tex4 :</label>
+              <input id="tex4" type="text" class="form-control" name="tex4" placeholder="tex4" >
+            </div>
+    <div class="col col-md-2 form-group">
+              <label class="font-weight-bold" for="text1">Tex5 :</label>
+              <input id="tex5" type="text" class="form-control" name="tex5" placeholder="tex5" >
+            </div>
+    <div class="col col-md-2 form-group">
+              <label class="font-weight-bold" for="text1">Tex6 :</label>
+              <input id="tex6" type="text" class="form-control" name="tex6" placeholder="tex6" >
+            </div>
+    <div class="col col-md-2 form-group">
+              <label class="font-weight-bold" for="text1">Tex7 :</label>
+              <input id="tex7" type="text" class="form-control" name="tex7" placeholder="tex7" >
             </div>
 </div>
           <!-- closing new user button -->
@@ -176,7 +196,7 @@
             </div>
           </div>
 
-          <div id="invoice_acknowledgement" class="col-md-12 h5 text-success font-weight-bold text-center" style="font-family: sans-serif;"</div>
+          <div id="invoice_acknowledgement" class="col-md-12 h5 text-success font-weight-bold text-center" style="font-family: sans-serif;"> </div>
 
         </div>
         <!-- form content end -->

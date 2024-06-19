@@ -67,6 +67,11 @@ function showSales($start_date, $end_date) {
       <th>Sales Date</th>
       <th>Invoice Number</th>
       <th>Customer Name</th>
+      <th>Customer ADDRESS</th>
+      <th>Customer CONTACT</th>
+      <th>DOCTOR'S NAME</th>
+      <th>Net Total</th>
+      <th>Total Discount</th>
       <th>Total Amount</th>
     </tr>
   </thead>
@@ -106,7 +111,12 @@ function showSalesRow($seq_no, $row) {
     <td><?php echo $row['INVOICE_DATE']; ?></td>
     <td><?php echo $row['INVOICE_ID']; ?></td>
     <td><?php echo $row['NAME']; ?></td>
+    <td><?php echo $row['ADDRESS']; ?></td>
+    <td><?php echo $row['CONTACT_NUMBER']; ?></td>
+    <td><?php echo $row['DOCTOR_NAME']; ?></td>
     <td><?php echo $row['NET_TOTAL'] ?></td>
+    <td><?php echo $row['TOTAL_DISCOUNT'] ?></td>
+    <td><?php echo $row['TOTAL_AMOUNT'] ?></td>
   </tr>
   <?php
 }

@@ -46,6 +46,10 @@ function updateInvoice(invoiceNumber) {
   var total_amount = document.getElementById("total_amount").value;
   var total_discount = document.getElementById("total_discount").value;
   var net_total = document.getElementById("net_total").value;
+  var net_total = document.getElementById("net_total").value;
+  var net_total = document.getElementById("net_total").value;
+  var net_total = document.getElementById("net_total").value;
+  var net_total = document.getElementById("net_total").value;
 
   var xhr = new XMLHttpRequest();
   xhr.open(
