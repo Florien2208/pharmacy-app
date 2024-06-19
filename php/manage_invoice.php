@@ -26,27 +26,29 @@ if(isset($_GET["action"]) && $_GET["action"] == "update") {
 if(isset($_GET["action"]) && $_GET["action"] == "cancel")
       showInvoices();
 function showEditInvoices($invoice_number) {
-require "db_connection.php";
-if ($con) {
-$seq_no = 0;
-$query = "SELECT invoices.*, customers.NAME, customers.ADDRESS, customers.CONTACT_NUMBER, customers.DOCTOR_NAME, customers.DOCTOR_ADDRESS
-FROM invoices
-INNER JOIN customers ON invoices.CUSTOMER_ID = customers.ID";
-$result = mysqli_query($con, $query);
-if ($result && mysqli_num_rows($result) > 0) {
-while ($row = mysqli_fetch_array($result)) {
-$seq_no++;
-if ($row['INVOICE_ID'] == $invoice_number) {
-showEditOptionsRow($seq_no, $row);
-} else {
-showInvoiceRow($seq_no, $row);
+    require "db_connection.php";
+    if ($con) {
+        $seq_no = 0;
+        $query = "SELECT invoices.*, customers.NAME, customers.ADDRESS, customers.CONTACT_NUMBER, customers.DOCTOR_NAME, customers.DOCTOR_ADDRESS, sales.BATCH_ID, sales.EXPIRY_DATE, sales.QUANTITY, sales.MRP, sales.MEDICINE_NAME
+                  FROM invoices
+                  INNER JOIN customers ON invoices.CUSTOMER_ID = customers.ID
+                   INNER JOIN sales ON invoices.INVOICE_ID = sales.INVOICE_NUMBER";
+        $result = mysqli_query($con, $query);
+        if ($result && mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_array($result)) {
+                $seq_no++;
+                if ($row['INVOICE_ID'] == $invoice_number) {
+                    showEditOptionsRow($seq_no, $row);
+                } else {
+                    showInvoiceRow($seq_no, $row);
+                }
+            }
+        } else {
+            echo "No invoices found.";
+        }
+    }
 }
-}
-} else {
-echo "No invoices found.";
-}
-}
-}
+
 
 function showEditOptionsRow($seq_no, $row) {
   ?>
@@ -54,10 +56,10 @@ function showEditOptionsRow($seq_no, $row) {
     <td><?php echo $seq_no; ?></td>
     <td><?php echo $row['INVOICE_ID']; ?></td>
     <td><?php echo $row['NAME']; ?></td>
-    <td><?php echo $row['NAME']; ?></td>
-    <td><?php echo $row['NAME']; ?></td>
-    <td><?php echo $row['NAME']; ?></td>
-    <td><?php echo $row['NAME']; ?></td>
+    <td><?php echo $row['MEDICINE_NAME']; ?></td>
+    <td><?php echo $row['BATCH_ID']; ?></td>
+    <td><?php echo $row['QUANTITY']; ?></td>
+    <td><?php echo $row['MRP']; ?></td>
     <td>
       <input type="date" class="form-control" value="<?php echo $row['INVOICE_DATE']; ?>" placeholder="Invoice Date" id="invoice_date">
       <code class="text-danger small font-weight-bold float-right" id="invoice_date_error" style="display: none;"></code>
@@ -182,17 +184,17 @@ function updateInvoice($id, $invoice_date, $total_amount, $total_discount, $net_
     }
 }
 
-  function showInvoiceRow($seq_no, $row)
+function showInvoiceRow($seq_no, $row)
 {
     ?>
     <tr>
         <td><?php echo $seq_no; ?></td>
         <td><?php echo $row['INVOICE_ID']; ?></td>
         <td><?php echo $row['NAME']; ?></td>
-        <td><?php echo $row['MEDICINES']; ?></td>
-        <td><?php echo $row['BATCHS']; ?></td>
-        <td><?php echo $row['QUANTITIES']; ?></td>
-        <td><?php echo $row['MRPS']; ?></td>
+        <td><?php echo isset($row['MEDICINES']) ? $row['MEDICINES'] : ''; ?></td>
+        <td><?php echo isset($row['BATCHS']) ? $row['BATCHS'] : ''; ?></td>
+        <td><?php echo isset($row['QUANTITIES']) ? $row['QUANTITIES'] : ''; ?></td>
+        <td><?php echo isset($row['MRPS']) ? $row['MRPS'] : ''; ?></td>
         <td><?php echo $row['INVOICE_DATE']; ?></td>
         <td><?php echo $row['TOTAL_AMOUNT']; ?></td>
         <td><?php echo $row['TOTAL_DISCOUNT']; ?></td>
@@ -223,7 +225,7 @@ function updateInvoice($id, $invoice_date, $total_amount, $total_discount, $net_
       </td>
     </tr>
     <?php
-  }
+}
 
   function searchInvoice($text, $column) {
     require "db_connection.php";
