@@ -46,10 +46,14 @@ function updateInvoice(invoiceNumber) {
   var total_amount = document.getElementById("total_amount").value;
   var total_discount = document.getElementById("total_discount").value;
   var net_total = document.getElementById("net_total").value;
-  var tex_3 = document.getElementById("tex_1").value;
+  var tex_7 = document.getElementById("tex_7").value;
+  var tex_6 = document.getElementById("tex_6").value;
+  var tex_5 = document.getElementById("tex_5").value;
+  var tex_4 = document.getElementById("tex_4").value;
+  var tex_3 = document.getElementById("tex_3").value;
   var tex_2 = document.getElementById("tex_2").value;
-  var tex_1 = document.getElementById("tex_3").value;
-  var tex = document.getElementById("tex_4").value;
+  var tex_1 = document.getElementById("tex_1").value;
+  var tex = document.getElementById("tex").value;
 
   var xhr = new XMLHttpRequest();
   xhr.open(
@@ -64,8 +68,22 @@ function updateInvoice(invoiceNumber) {
       encodeURIComponent(total_discount) +
       "&net_total=" +
       encodeURIComponent(net_total) +
+      "&tex=" +
+      encodeURIComponent(tex)+
       "&tex_1=" +
-      encodeURIComponent(tex_1),
+      encodeURIComponent(tex_1)+
+      "&tex_2=" +
+      encodeURIComponent(tex_2)+
+      "&tex_3=" +
+      encodeURIComponent(tex_3)+
+      "&tex_4=" +
+      encodeURIComponent(tex_4)+
+      "&tex_5=" +
+      encodeURIComponent(tex_5)+
+      "&tex_6=" +
+      encodeURIComponent(tex_6)+
+      "&tex_7=" +
+      encodeURIComponent(tex_7),
     true
   );
   xhr.onreadystatechange = function () {
@@ -77,7 +95,7 @@ function updateInvoice(invoiceNumber) {
 
 
 
-  console.log("invoice_date", invoice_date);
+  console.log("invoice_date", tex_1);
   console.log("total_amount", total_amount);
   console.log("total_discount", total_discount);
   console.log("net_total", net_total);

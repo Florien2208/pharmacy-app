@@ -199,13 +199,15 @@
     $tex5 = isset($_GET['tex5']) ? $_GET['tex5'] : '';
     $tex6 = isset($_GET['tex6']) ? $_GET['tex6'] : '';
     $tex7 = isset($_GET['tex7']) ? $_GET['tex7'] : '';
+    $payment_type = isset($_GET['payment_type']) ? $_GET['payment_type'] : '';
 
     $total_amount = $_GET['total_amount'];
     $total_discount = $_GET['total_discount'];
     $net_total = $_GET['net_total'];
     require "db_connection.php";
     if($con) {
-        $query = "INSERT INTO invoices (CUSTOMER_ID, INVOICE_DATE, TOTAL_AMOUNT, TOTAL_DISCOUNT, NET_TOTAL,TEX,TEX1,TEX2,TEX3,TEX4,TEX5,TEX6,TEX7) VALUES($customer_id, '$invoice_date',  $total_amount, $total_discount, $net_total, '$tex','$tex1','$tex2','$tex3','$tex4','$tex5','$tex6','$tex7')";
+        $query = "INSERT INTO invoices (CUSTOMER_ID, INVOICE_DATE, TOTAL_AMOUNT, TOTAL_DISCOUNT, NET_TOTAL,TEX,TEX1,TEX2,TEX3,TEX4,TEX5,TEX6,TEX7,PAYMENT_STATUS) VALUES($customer_id, '$invoice_date',  $total_amount, $total_discount, $net_total, '$tex','$tex1','$tex2','$tex3','$tex4','$tex5','$tex6','$tex7','$payment_type')";
+        echo $query;
         $result = mysqli_query($con, $query);
         echo ($result) ? "Invoice saved..." : "failed to add invoice...";
     }

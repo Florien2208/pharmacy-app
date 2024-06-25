@@ -246,7 +246,7 @@ function addInvoice() {
   var tex5 = document.getElementById("tex5");
   var tex6 = document.getElementById("tex6");
   var tex7 = document.getElementById("tex7");
-  var payment_type = document.getElementById("payment_type");
+  var payment_type = document.getElementById("payment_type").value;
   var invoice_date = document.getElementById("invoice_date");
   //alert(invoice_number.value);
  
@@ -393,8 +393,8 @@ function addInvoice() {
       tex4.value,
       tex5.value,
       tex6.value,
-      tex7.value
-      
+      tex7.value,
+      payment_type.value
     );
     document.getElementById("save_button").style.display = "none";
     document.getElementById("new_invoice_button").style.display = "block";
@@ -481,7 +481,10 @@ function addNewInvoice(
   tex5,
   tex6,
   tex7,
+  payment_type
 ) {
+
+  console.log("payment_type", payment_type);
   // Modified this line
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
@@ -489,38 +492,39 @@ function addNewInvoice(
       document.getElementById("invoice_acknowledgement").innerHTML =
         xhttp.responseText;
   };
- xhttp.open(
-   "GET",
-   "php/add_new_invoice.php?action=add_new_invoice&customers_name=" +
-     customers_name +
-     "&customers_contact_number=" +
-     customers_contact_number +
-     "&invoice_date=" +
-     invoice_date +
-     "&total_amount=" +
-     total_amount +
-     "&total_discount=" +
-     total_discount +
-     "&net_total=" +
-     net_total +
-     "&tex=" +
-     tex + 
-     "&tex1=" +
-     tex1 +
-     "&tex2=" +
-     tex2 +
-     "&tex3=" +
-     tex3 + 
-     "&tex4=" +
-     tex4 + 
-     "&tex5=" +
-     tex5 +
-     "&tex6=" +
-     tex6 +
-     "&tex7=" +
-     tex7,
-   true
- );
+  xhttp.open(
+    "GET",
+    "php/add_new_invoice.php?action=add_new_invoice&customers_name=" +
+      customers_name +
+      "&customers_contact_number=" +
+      customers_contact_number +
+      "&invoice_date=" +
+      invoice_date +
+      "&total_amount=" +
+      total_amount +
+      "&total_discount=" +
+      total_discount +
+      "&net_total=" +
+      net_total +
+      "&tex=" +
+      tex +
+      "&tex1=" +
+      tex1 +
+      "&tex2=" +
+      tex2 +
+      "&tex3=" +
+      tex3 +
+      "&tex4=" +
+      tex4 +
+      "&tex5=" +
+      tex5 +
+      "&tex6=" +
+      tex6 +
+      "&tex7=" +
+      tex7 +
+      "&payment_type=" +
+      payment_type,
+    true
+  );
   xhttp.send();
-
 }

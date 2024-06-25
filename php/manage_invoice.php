@@ -21,7 +21,16 @@ if(isset($_GET["action"]) && $_GET["action"] == "update") {
       $total_amount = $_GET["total_amount"];
       $total_discount = $_GET["total_discount"];
       $net_total = $_GET["net_total"];
-      updateInvoice($invoice_number, $invoice_date, $total_amount, $total_discount, $net_total);
+      $tex = $_GET["tex"];
+      $tex_1 = $_GET["tex_1"];
+      $tex_2 = $_GET["tex_2"];
+      $tex_3 = $_GET["tex_3"];
+      $tex_4 = $_GET["tex_4"];
+      $tex_5 = $_GET["tex_5"];
+      $tex_6 = $_GET["tex_6"];
+      $tex_7 = $_GET["tex_7"];
+      updateInvoice($invoice_number, $invoice_date, $total_amount, $total_discount, $net_total,$tex,$tex_1,$tex_2,$tex_3,$tex_4,$tex_5,
+    $tex_6,$tex_7);
     }
 if(isset($_GET["action"]) && $_GET["action"] == "cancel")
       showInvoices();
@@ -29,10 +38,17 @@ function showEditInvoices($invoice_number) {
     require "db_connection.php";
     if ($con) {
         $seq_no = 0;
-        $query = "SELECT invoices.*, customers.NAME, customers.ADDRESS, customers.CONTACT_NUMBER, customers.DOCTOR_NAME, customers.DOCTOR_ADDRESS, sales.BATCH_ID, sales.EXPIRY_DATE, sales.QUANTITY, sales.MRP, sales.MEDICINE_NAME
-                  FROM invoices
-                  INNER JOIN customers ON invoices.CUSTOMER_ID = customers.ID
-                   INNER JOIN sales ON invoices.INVOICE_ID = sales.INVOICE_NUMBER";
+        $query = "
+            SELECT invoices.*, customers.NAME, customers.ADDRESS, customers.CONTACT_NUMBER, customers.DOCTOR_NAME, customers.DOCTOR_ADDRESS,
+                   GROUP_CONCAT(sales.BATCH_ID SEPARATOR ', ') AS BATCHS,
+                   GROUP_CONCAT(sales.QUANTITY SEPARATOR ', ') AS QUANTITIES,
+                   GROUP_CONCAT(sales.MRP SEPARATOR ', ') AS MRPS,
+                   GROUP_CONCAT(sales.MEDICINE_NAME SEPARATOR ', ') AS MEDICINES
+            FROM invoices
+            INNER JOIN customers ON invoices.CUSTOMER_ID = customers.ID
+            INNER JOIN sales ON invoices.INVOICE_ID = sales.INVOICE_NUMBER
+            GROUP BY invoices.INVOICE_ID
+        ";
         $result = mysqli_query($con, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_array($result)) {
@@ -56,10 +72,22 @@ function showEditOptionsRow($seq_no, $row) {
     <td><?php echo $seq_no; ?></td>
     <td><?php echo $row['INVOICE_ID']; ?></td>
     <td><?php echo $row['NAME']; ?></td>
-    <td><?php echo $row['MEDICINE_NAME']; ?></td>
-    <td><?php echo $row['BATCH_ID']; ?></td>
-    <td><?php echo $row['QUANTITY']; ?></td>
-    <td><?php echo $row['MRP']; ?></td>
+   <td>
+      <textarea class="form-control" placeholder="Medicine Names" id="medicines"><?php echo $row['MEDICINES']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="medicines_error" style="display: none;"></code>
+    </td>
+    <td>
+      <textarea class="form-control" placeholder="Batch IDs" id="batchs"><?php echo $row['BATCHS']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="batchs_error" style="display: none;"></code>
+    </td>
+    <td>
+      <textarea class="form-control" placeholder="Quantities" id="quantities"><?php echo $row['QUANTITIES']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="quantities_error" style="display: none;"></code>
+    </td>
+    <td>
+      <textarea class="form-control" placeholder="MRPs" id="mrps"><?php echo $row['MRPS']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="mrps_error" style="display: none;"></code>
+    </td>
     <td>
       <input type="date" class="form-control" value="<?php echo $row['INVOICE_DATE']; ?>" placeholder="Invoice Date" id="invoice_date">
       <code class="text-danger small font-weight-bold float-right" id="invoice_date_error" style="display: none;"></code>
@@ -139,9 +167,22 @@ function showEditOptionsRow($seq_no, $row) {
 }
 
 
-function updateInvoice($id, $invoice_date, $total_amount, $total_discount, $net_total) {
+function updateInvoice($id, $invoice_date, $total_amount, $total_discount, $net_total,$tex_1,$tex,$tex_2,$tex_3,$tex_4,$tex_5,$tex_6,$tex_7) {
   require "db_connection.php";
-  $query = "UPDATE invoices SET INVOICE_DATE = '$invoice_date', NET_TOTAL = '$net_total', TOTAL_AMOUNT = '$total_amount', TOTAL_DISCOUNT = '$total_discount' WHERE INVOICE_ID = $id";
+ $query = "UPDATE invoices SET 
+  INVOICE_DATE = '$invoice_date', 
+  NET_TOTAL = '$net_total', 
+  TOTAL_AMOUNT = '$total_amount', 
+  TOTAL_DISCOUNT = '$total_discount',
+  TEX = '$tex',
+  TEX1 = '$tex_1',
+  TEX2 = '$tex_2',
+  TEX3 = '$tex_3',
+  TEX4 = '$tex_4',
+  TEX5 = '$tex_5',
+  TEX6 = '$tex_6',
+  TEX7 = '$tex_7'
+  WHERE INVOICE_ID = $id";
   $result = mysqli_query($con, $query);
   if(!empty($result))
     showInvoices();
