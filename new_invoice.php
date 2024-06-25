@@ -67,9 +67,9 @@
             <div class="col col-md-2 form-group">
               <label class="font-weight-bold" for="">Payment Type :</label>
               <select id="payment_type" class="form-control">
-                <option value="1">Cash Payment</option>
-                <option value="2">Card Payment</option>
-                <option value="3">Net Banking</option>
+                <option value="Cash Payment">Cash Payment</option>
+                <option value="Card Payment">Card Payment</option>
+                <option value="Net Banking">Net Banking</option>
               </select>
             </div>
             <div class="col col-md-2 form-group">

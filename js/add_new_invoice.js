@@ -246,7 +246,7 @@ function addInvoice() {
   var tex5 = document.getElementById("tex5");
   var tex6 = document.getElementById("tex6");
   var tex7 = document.getElementById("tex7");
-  var payment_type = document.getElementById("payment_type").value;
+  var payment_type = document.getElementById("payment_type");
   var invoice_date = document.getElementById("invoice_date");
   //alert(invoice_number.value);
  
@@ -484,7 +484,7 @@ function addNewInvoice(
   payment_type
 ) {
 
-  console.log("payment_type", payment_type);
+  // console.log("payment_type", payment_type);
   // Modified this line
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {

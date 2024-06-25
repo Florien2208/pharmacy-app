@@ -93,12 +93,6 @@ function updateInvoice(invoiceNumber) {
   };
   xhr.send();
 
-
-
-  console.log("invoice_date", tex_1);
-  console.log("total_amount", total_amount);
-  console.log("total_discount", total_discount);
-  console.log("net_total", net_total);
 }
 
 

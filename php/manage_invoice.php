@@ -104,10 +104,7 @@ function showEditOptionsRow($seq_no, $row) {
       <textarea class="form-control" placeholder="Net Total" id="net_total"><?php echo $row['NET_TOTAL']; ?></textarea>
       <code class="text-danger small font-weight-bold float-right" id="net_total_error" style="display: none;"></code>
     </td>
-    <td>
-      <textarea class="form-control" placeholder="payment status" id="payment_status"><?php echo $row['PAYMENT_STATUS']; ?></textarea>
-      <code class="text-danger small font-weight-bold float-right" id="payment_status_error" style="display: none;"></code>
-    </td>
+    <td><?php echo $row['PAYMENT_STATUS']; ?></td>
    <td><?php echo $row['ADDRESS']; ?></td>
    <td><?php echo $row['CONTACT_NUMBER']; ?></td>
    <td><?php echo $row['DOCTOR_NAME']; ?></td>
