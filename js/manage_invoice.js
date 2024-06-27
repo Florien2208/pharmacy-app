@@ -58,6 +58,7 @@ function updateInvoice(invoiceNumber) {
   var batchs = document.getElementById("batchs").value;
   var quantities = document.getElementById("quantities").value;
   var mrps = document.getElementById("mrps").value;
+  var payment_status = document.getElementById("payment_status").value;
 
   var xhr = new XMLHttpRequest();
   xhr.open(
@@ -88,6 +89,8 @@ function updateInvoice(invoiceNumber) {
       encodeURIComponent(tex_6) +
       "&tex_7=" +
       encodeURIComponent(tex_7) +
+      "&payment_status=" +
+      encodeURIComponent(payment_status) +
       "&medicines=" +
       encodeURIComponent(medicines) +
       "&batchs=" +

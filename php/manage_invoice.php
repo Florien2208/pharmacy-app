@@ -29,11 +29,12 @@ if(isset($_GET["action"]) && $_GET["action"] == "update") {
   $tex_5 = $_GET["tex_5"];
   $tex_6 = $_GET["tex_6"];
   $tex_7 = $_GET["tex_7"];
+  $payment_status = $_GET["payment_status"];
   $medicines = isset($_GET["medicines"]) ? $_GET["medicines"] : null;
   $batchs = isset($_GET["batchs"]) ? $_GET["batchs"] : null;
   $quantities = $_GET["quantities"];
   $mrps = $_GET["mrps"];
-updateInvoice($invoice_number, $invoice_date, $total_amount, $total_discount, $net_total, $tex, $tex_1, $tex_2, $tex_3, $tex_4, $tex_5, $tex_6, $tex_7, $medicines,$batchs, $quantities,$mrps);
+updateInvoice($invoice_number, $invoice_date, $total_amount, $total_discount, $net_total, $tex, $tex_1, $tex_2, $tex_3, $tex_4, $tex_5, $tex_6, $tex_7,$payment_status, $medicines,$batchs, $quantities,$mrps);
 }
 if(isset($_GET["action"]) && $_GET["action"] == "cancel")
       showInvoices();
@@ -107,7 +108,11 @@ function showEditOptionsRow($seq_no, $row) {
       <textarea class="form-control" placeholder="Net Total" id="net_total"><?php echo $row['NET_TOTAL']; ?></textarea>
       <code class="text-danger small font-weight-bold float-right" id="net_total_error" style="display: none;"></code>
     </td>
-    <td><?php echo $row['PAYMENT_STATUS']; ?></td>
+    <td>
+      <textarea class="form-control" placeholder="payment_status" id="payment_status"><?php echo $row['PAYMENT_STATUS']; ?></textarea>
+      <code class="text-danger small font-weight-bold float-right" id="payment_status_error" style="display: none;"></code>
+    </td>
+    
    <td><?php echo $row['ADDRESS']; ?></td>
    <td><?php echo $row['CONTACT_NUMBER']; ?></td>
    <td><?php echo $row['DOCTOR_NAME']; ?></td>
@@ -167,7 +172,7 @@ function showEditOptionsRow($seq_no, $row) {
 }
 
 
-function updateInvoice($id, $invoice_date, $total_amount, $total_discount, $net_total, $tex_1, $tex, $tex_2, $tex_3, $tex_4, $tex_5, $tex_6, $tex_7, $medicines, $batchs, $quantities, $mrps) {
+function updateInvoice($id, $invoice_date, $total_amount, $total_discount, $net_total, $tex_1, $tex, $tex_2, $tex_3, $tex_4, $tex_5, $tex_6, $tex_7 ,$payment_status, $medicines, $batchs, $quantities, $mrps) {
   require "db_connection.php";
   $query = "UPDATE invoices SET 
     INVOICE_DATE = '$invoice_date', 
@@ -181,7 +186,8 @@ function updateInvoice($id, $invoice_date, $total_amount, $total_discount, $net_
     TEX4 = '$tex_4',
     TEX5 = '$tex_5',
     TEX6 = '$tex_6',
-    TEX7 = '$tex_7'
+    TEX7 = '$tex_7',
+    PAYMENT_STATUS = '$payment_status'
     WHERE INVOICE_ID = $id";
   $result = mysqli_query($con, $query);
   if ($result) {
