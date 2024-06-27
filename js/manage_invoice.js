@@ -54,6 +54,10 @@ function updateInvoice(invoiceNumber) {
   var tex_2 = document.getElementById("tex_2").value;
   var tex_1 = document.getElementById("tex_1").value;
   var tex = document.getElementById("tex").value;
+  var medicines = document.getElementById("medicines").value;
+  var batchs = document.getElementById("batchs").value;
+  var quantities = document.getElementById("quantities").value;
+  var mrps = document.getElementById("mrps").value;
 
   var xhr = new XMLHttpRequest();
   xhr.open(
@@ -69,21 +73,29 @@ function updateInvoice(invoiceNumber) {
       "&net_total=" +
       encodeURIComponent(net_total) +
       "&tex=" +
-      encodeURIComponent(tex)+
+      encodeURIComponent(tex) +
       "&tex_1=" +
-      encodeURIComponent(tex_1)+
+      encodeURIComponent(tex_1) +
       "&tex_2=" +
-      encodeURIComponent(tex_2)+
+      encodeURIComponent(tex_2) +
       "&tex_3=" +
-      encodeURIComponent(tex_3)+
+      encodeURIComponent(tex_3) +
       "&tex_4=" +
-      encodeURIComponent(tex_4)+
+      encodeURIComponent(tex_4) +
       "&tex_5=" +
-      encodeURIComponent(tex_5)+
+      encodeURIComponent(tex_5) +
       "&tex_6=" +
-      encodeURIComponent(tex_6)+
+      encodeURIComponent(tex_6) +
       "&tex_7=" +
-      encodeURIComponent(tex_7),
+      encodeURIComponent(tex_7) +
+      "&medicines=" +
+      encodeURIComponent(medicines) +
+      "&batchs=" +
+      encodeURIComponent(batchs) +
+      "&quantities=" +
+      encodeURIComponent(quantities) +
+      "&mrps=" +
+      encodeURIComponent(mrps),
     true
   );
   xhr.onreadystatechange = function () {
@@ -92,9 +104,7 @@ function updateInvoice(invoiceNumber) {
     }
   };
   xhr.send();
-
 }
-
 
 function refresh() {
   var xhttp = new XMLHttpRequest();

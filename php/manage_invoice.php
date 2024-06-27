@@ -16,22 +16,25 @@ if(isset($_GET["action"]) && $_GET["action"] == "edit") {
       showEditInvoices($invoice_number);
     }
 if(isset($_GET["action"]) && $_GET["action"] == "update") {
-      $invoice_number = $_GET["invoice_number"];
-      $invoice_date = $_GET["invoice_date"];
-      $total_amount = $_GET["total_amount"];
-      $total_discount = $_GET["total_discount"];
-      $net_total = $_GET["net_total"];
-      $tex = $_GET["tex"];
-      $tex_1 = $_GET["tex_1"];
-      $tex_2 = $_GET["tex_2"];
-      $tex_3 = $_GET["tex_3"];
-      $tex_4 = $_GET["tex_4"];
-      $tex_5 = $_GET["tex_5"];
-      $tex_6 = $_GET["tex_6"];
-      $tex_7 = $_GET["tex_7"];
-      updateInvoice($invoice_number, $invoice_date, $total_amount, $total_discount, $net_total,$tex,$tex_1,$tex_2,$tex_3,$tex_4,$tex_5,
-    $tex_6,$tex_7);
-    }
+  $invoice_number = $_GET["invoice_number"];
+  $invoice_date = $_GET["invoice_date"];
+  $total_amount = $_GET["total_amount"];
+  $total_discount = $_GET["total_discount"];
+  $net_total = $_GET["net_total"];
+  $tex = $_GET["tex"];
+  $tex_1 = $_GET["tex_1"];
+  $tex_2 = $_GET["tex_2"];
+  $tex_3 = $_GET["tex_3"];
+  $tex_4 = $_GET["tex_4"];
+  $tex_5 = $_GET["tex_5"];
+  $tex_6 = $_GET["tex_6"];
+  $tex_7 = $_GET["tex_7"];
+  $medicines = isset($_GET["medicines"]) ? $_GET["medicines"] : null;
+  $batchs = isset($_GET["batchs"]) ? $_GET["batchs"] : null;
+  $quantities = $_GET["quantities"];
+  $mrps = $_GET["mrps"];
+updateInvoice($invoice_number, $invoice_date, $total_amount, $total_discount, $net_total, $tex, $tex_1, $tex_2, $tex_3, $tex_4, $tex_5, $tex_6, $tex_7, $medicines,$batchs, $quantities,$mrps);
+}
 if(isset($_GET["action"]) && $_GET["action"] == "cancel")
       showInvoices();
 function showEditInvoices($invoice_number) {
@@ -164,27 +167,53 @@ function showEditOptionsRow($seq_no, $row) {
 }
 
 
-function updateInvoice($id, $invoice_date, $total_amount, $total_discount, $net_total,$tex_1,$tex,$tex_2,$tex_3,$tex_4,$tex_5,$tex_6,$tex_7) {
+function updateInvoice($id, $invoice_date, $total_amount, $total_discount, $net_total, $tex_1, $tex, $tex_2, $tex_3, $tex_4, $tex_5, $tex_6, $tex_7, $medicines, $batchs, $quantities, $mrps) {
   require "db_connection.php";
- $query = "UPDATE invoices SET 
-  INVOICE_DATE = '$invoice_date', 
-  NET_TOTAL = '$net_total', 
-  TOTAL_AMOUNT = '$total_amount', 
-  TOTAL_DISCOUNT = '$total_discount',
-  TEX = '$tex',
-  TEX1 = '$tex_1',
-  TEX2 = '$tex_2',
-  TEX3 = '$tex_3',
-  TEX4 = '$tex_4',
-  TEX5 = '$tex_5',
-  TEX6 = '$tex_6',
-  TEX7 = '$tex_7'
-  WHERE INVOICE_ID = $id";
+  $query = "UPDATE invoices SET 
+    INVOICE_DATE = '$invoice_date', 
+    NET_TOTAL = '$net_total', 
+    TOTAL_AMOUNT = '$total_amount', 
+    TOTAL_DISCOUNT = '$total_discount',
+    TEX = '$tex',
+    TEX1 = '$tex_1',
+    TEX2 = '$tex_2',
+    TEX3 = '$tex_3',
+    TEX4 = '$tex_4',
+    TEX5 = '$tex_5',
+    TEX6 = '$tex_6',
+    TEX7 = '$tex_7'
+    WHERE INVOICE_ID = $id";
   $result = mysqli_query($con, $query);
-  if(!empty($result))
-    showInvoices();
-}
+  if ($result) {
+    // Update medicines in the sales table
+    if ($medicines !== null ) {
+      $medicine_array = explode(', ', $medicines);
+      
+      // Fetch all sales records for this invoice
+      $fetch_sales_query = "SELECT * FROM sales WHERE INVOICE_NUMBER = $id";
+      $sales_result = mysqli_query($con, $fetch_sales_query);
+      
+      if ($sales_result) {
+        $index = 0;
+        while ($sales_row = mysqli_fetch_assoc($sales_result)) {
+          if (isset($medicine_array[$index])) {
+            $medicine_name = mysqli_real_escape_string($con, $medicine_array[$index]);
+            $sales_id = $sales_row['INVOICE_NUMBER']; 
+            $update_sales_query = "UPDATE sales SET MEDICINE_NAME = '$medicine_name', BATCH_ID = '$batchs' , QUANTITY = '$quantities', MRP = '$mrps'
+                                   WHERE INVOICE_NUMBER = $sales_id";
 
+                                 
+            mysqli_query($con, $update_sales_query);
+          }
+          $index++;
+        }
+      }
+    }
+    showInvoices();
+  } else {
+    echo "Error updating invoice: " . mysqli_error($con);
+  }
+}
 
 
 
