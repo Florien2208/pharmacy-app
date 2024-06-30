@@ -360,6 +360,33 @@ function showInvoiceRow($seq_no, $row)
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/sidenav.css">
 <link rel="stylesheet" href="css/home.css">
+<style>
+  @media print {
+    @page {
+      size: auto;  /* auto is the default, print entire page */
+      margin: 0;  /* this affects the margin in the printer settings */
+    }
+    body {
+      margin: 1cm;
+    }
+  }
+</style>
+<!-- <button id="toggleOrientation" onclick="toggleOrientation()">Toggle Orientation</button>
+
+<script>
+function toggleOrientation() {
+  var style = document.createElement('style');
+  style.textContent = `
+    @media print {
+      @page {
+        size: ${document.body.classList.contains('landscape') ? 'portrait' : 'landscape'};
+      }
+    }
+  `;
+  document.head.appendChild(style);
+  document.body.classList.toggle('landscape');
+}
+</script> -->
 
 <div class="container">
     <div class="row">
