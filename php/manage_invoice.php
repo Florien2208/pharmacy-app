@@ -363,30 +363,14 @@ function showInvoiceRow($seq_no, $row)
 <style>
   @media print {
     @page {
-      size: auto;  /* auto is the default, print entire page */
-      margin: 0;  /* this affects the margin in the printer settings */
+      size: auto; 
+      margin: 0; 
     }
     body {
       margin: 1cm;
     }
   }
 </style>
-<!-- <button id="toggleOrientation" onclick="toggleOrientation()">Toggle Orientation</button>
-
-<script>
-function toggleOrientation() {
-  var style = document.createElement('style');
-  style.textContent = `
-    @media print {
-      @page {
-        size: ${document.body.classList.contains('landscape') ? 'portrait' : 'landscape'};
-      }
-    }
-  `;
-  document.head.appendChild(style);
-  document.body.classList.toggle('landscape');
-}
-</script> -->
 
 <div class="container">
     <div class="row">
