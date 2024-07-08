@@ -176,7 +176,7 @@ function showEditOptionsRow($seq_no, $row) {
 }
 
 
-function updateInvoice($id, $invoice_date, $total_amount, $total_discount, $net_total, $tex_1, $tex, $tex_2, $tex_3, $tex_4, $tex_5, $tex_6, $tex_7 ,$payment_status, $medicines, $batchs, $quantities, $mrps) {
+function updateInvoice($id, $invoice_date, $total_amount, $total_discount, $net_total, $tex, $tex_1, $tex_2, $tex_3, $tex_4, $tex_5, $tex_6, $tex_7 ,$payment_status, $medicines, $batchs, $quantities, $mrps) {
   require "db_connection.php";
   $query = "UPDATE invoices SET 
     INVOICE_DATE = '$invoice_date', 
