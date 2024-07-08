@@ -376,7 +376,8 @@ function addInvoice() {
         medicines[i].quantity,
         medicines[i].mrp,
         medicines[i].discount,
-        medicines[i].total
+        medicines[i].total,
+        i + 1
       );
     }
     addNewInvoice(
@@ -432,7 +433,8 @@ function addSale(
   quantity,
   mrp,
   discount,
-  total
+  total,
+  order
 ) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
@@ -460,7 +462,9 @@ function addSale(
       "&discount=" +
       discount +
       "&total=" +
-      total,
+      total +
+      "&order=" +
+      order,
     true
   );
   xhttp.send();

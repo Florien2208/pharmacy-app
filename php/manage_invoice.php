@@ -194,15 +194,11 @@ function updateInvoice($id, $invoice_date, $total_amount, $total_discount, $net_
     PAYMENT_STATUS = '$payment_status'
     WHERE INVOICE_ID = $id";
   $result = mysqli_query($con, $query);
-  if ($result) {
-    // Update medicines in the sales table
+  if ($result) {  
     if ($medicines !== null ) {
       $medicine_array = explode(', ', $medicines);
-      
-      // Fetch all sales records for this invoice
       $fetch_sales_query = "SELECT * FROM sales WHERE INVOICE_NUMBER = $id";
-      $sales_result = mysqli_query($con, $fetch_sales_query);
-      
+      $sales_result = mysqli_query($con, $fetch_sales_query);     
       if ($sales_result) {
         $index = 0;
         while ($sales_row = mysqli_fetch_assoc($sales_result)) {
@@ -323,8 +319,7 @@ function showInvoiceRow($seq_no, $row)
     }
   }
 
-  function printInvoice($invoice_number)
-{
+  function printInvoice($invoice_number){
     require "db_connection.php";
     if ($con) {
         $query = "SELECT * FROM sales 
@@ -363,30 +358,14 @@ function showInvoiceRow($seq_no, $row)
 <style>
   @media print {
     @page {
-      size: auto;  /* auto is the default, print entire page */
-      margin: 0;  /* this affects the margin in the printer settings */
+      size: auto; 
+      margin: 0; 
     }
     body {
       margin: 1cm;
     }
   }
 </style>
-<!-- <button id="toggleOrientation" onclick="toggleOrientation()">Toggle Orientation</button>
-
-<script>
-function toggleOrientation() {
-  var style = document.createElement('style');
-  style.textContent = `
-    @media print {
-      @page {
-        size: ${document.body.classList.contains('landscape') ? 'portrait' : 'landscape'};
-      }
-    }
-  `;
-  document.head.appendChild(style);
-  document.body.classList.toggle('landscape');
-}
-</script> -->
 
 <div class="container">
     <div class="row">
@@ -478,7 +457,9 @@ function toggleOrientation() {
                 <?php
                 $seq_no = 0;
                 $total = 0;
-                $query = "SELECT * FROM sales WHERE INVOICE_NUMBER = $invoice_number";
+                $query = "SELECT * FROM sales 
+                  WHERE INVOICE_NUMBER = $invoice_number 
+                  ORDER BY MEDICINE_ORDER ASC";
                 $result = mysqli_query($con, $query);
                 while ($row = mysqli_fetch_array($result)) {
                     $seq_no++;

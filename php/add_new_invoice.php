@@ -177,10 +177,11 @@
     $mrp = $_GET['mrp'];
     $discount = $_GET['discount'];
     $total = $_GET['total'];
+    $order = $_GET['order'];
 
     require "db_connection.php";
     if($con) {
-      $query = "INSERT INTO sales (CUSTOMER_ID, INVOICE_NUMBER, MEDICINE_NAME, BATCH_ID, EXPIRY_DATE, QUANTITY, MRP, DISCOUNT, TOTAL) VALUES($customer_id, $invoice_number, '$medicine_name', '$batch_id', '$expiry_date', $quantity, $mrp, $discount, $total)";
+      $query = "INSERT INTO sales (CUSTOMER_ID, INVOICE_NUMBER, MEDICINE_NAME, BATCH_ID, EXPIRY_DATE, QUANTITY, MRP, DISCOUNT, TOTAL,MEDICINE_ORDER) VALUES($customer_id, $invoice_number, '$medicine_name', '$batch_id', '$expiry_date', $quantity, $mrp, $discount, $total,$order)";
       $result = mysqli_query($con, $query);
       echo ($result) ? "inserted sale" : "falied to add sale...";
     }

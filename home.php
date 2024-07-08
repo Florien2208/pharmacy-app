@@ -41,7 +41,6 @@
 
 
                 if($title == "Expired") {
-                  // logic
                   $count = 0;
                   while($row = mysqli_fetch_array($result)) {
                     $expiry_date = $row['EXPIRY_DATE'];
